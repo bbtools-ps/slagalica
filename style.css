@@ -72,6 +72,7 @@ button:hover {
 li {
     text-transform: capitalize;
     line-height: 1.5rem;
+    color: var(--yellow);
 }
 
 .letters {
