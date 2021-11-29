@@ -83,48 +83,55 @@
         return azbuka[Math.floor(Math.random() * azbuka.length)];
     }
 
-    // ---------- VARIABLES ----------
-    const xmlhttp = new XMLHttpRequest();
-    const url = "./dict/sr-rs.json";
-    const inputCharacters = document.querySelectorAll(".char");
-    const solution = document.querySelector(".solution");
-    const otherSolutionsList = document.querySelector(".other-solutions");
-    const searchBtn = document.querySelector(".search-btn");
-    const resetBtn = document.querySelector(".reset-btn");
-    const randomBtn = document.querySelector(".random-btn");
-    let dictionary;
+    // fetch json
+    const getDictionary = async (url) => {
+        document.querySelector("main").style.display = "none";
+        const loading = document.createElement("div");
+        loading.classList.add("loading");
+        loading.innerHTML = `<h1>Учитавам речник...</h1>`;
+        document.body.appendChild(loading);
 
-    xmlhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let jsonFile = JSON.parse(this.responseText);
-            dictionary = jsonFile.words.split(" ");
-        }
+        const response = await fetch(url);
+        const data = await response.json();
+        return data;
     };
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
 
-    // ---------- EVENT LISTENERS ----------
-    randomBtn.addEventListener("click", () => {
-        inputCharacters.forEach((char) => {
-            char.value = generateRandomChar();
+    getDictionary("./dict/sr-rs.json").then((data) => {
+        // ---------- VARIABLES ----------
+        const dictionary = data.words.split(" ");
+        const inputCharacters = document.querySelectorAll(".char");
+        const solution = document.querySelector(".solution");
+        const otherSolutionsList = document.querySelector(".other-solutions");
+        const searchBtn = document.querySelector(".search-btn");
+        const resetBtn = document.querySelector(".reset-btn");
+        const randomBtn = document.querySelector(".random-btn");
+
+        document.body.removeChild(document.querySelector(".loading"));
+        document.querySelector("main").style.display = "block";
+
+        // ---------- EVENT LISTENERS ----------
+        randomBtn.addEventListener("click", () => {
+            inputCharacters.forEach((char) => {
+                char.value = generateRandomChar();
+            });
         });
-    });
 
-    resetBtn.addEventListener("click", () => {
-        inputCharacters.forEach((char) => {
-            char.value = "";
+        resetBtn.addEventListener("click", () => {
+            inputCharacters.forEach((char) => {
+                char.value = "";
+            });
+            solution.value = "";
+            otherSolutionsList.classList.remove("active");
         });
-        solution.value = "";
-        otherSolutionsList.classList.remove("active");
-    });
 
-    searchBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        const randomString = getChars(inputCharacters);
-        let results = [];
-        results = findLongestWord(dictionary, randomString);
-        results.length
-            ? showSolutions(results, solution, otherSolutionsList)
-            : alert("Nema takve reči u rečniku.");
+        searchBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const randomString = getChars(inputCharacters);
+            let results = [];
+            results = findLongestWord(dictionary, randomString);
+            results.length
+                ? showSolutions(results, solution, otherSolutionsList)
+                : alert("Нема такве речи у речнику.");
+        });
     });
 })();
