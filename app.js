@@ -1,137 +1,119 @@
-(function () {
-    // ---------- FUNCTIONS ----------
-    /**
-     * Find longest words from random characters.
-     * @param {array} dictionary = contains all words.
-     * @param {string} str = random characters.
-     * @returns
-     */
-    const findLongestWord = (dictionary, str) => {
-        // make a copy of the original dictionary
-        let words = [...dictionary];
-        // random string to toLowerCase
-        str.toLowerCase();
-        // loop through each item from the dictionary and filter only the results
-        let result = words.filter((word) => {
-            // convert each word into array of chars for better manipulation
-            let chars = word.toLowerCase().split("");
-            // loop through each character from random string
-            for (let j = 0; j < str.length; j++) {
-                let index = chars.indexOf(str[j]);
-                // if character exists remove it from array
-                if (index !== -1) {
-                    chars.splice(index, 1);
-                }
-            }
-            // if each char of the word is used it is a match so return that word
-            if (chars.length === 0) {
-                return word;
-            }
-        });
+(async function () {
+  // ---------- VARIABLES ----------
+  const inputCharacters = document.querySelectorAll(".char");
+  const solution = document.querySelector(".solution");
+  const otherSolutionsList = document.querySelector(".other-solutions");
+  const searchBtn = document.querySelector(".search-btn");
+  const resetBtn = document.querySelector(".reset-btn");
+  const randomBtn = document.querySelector(".random-btn");
 
-        // sort the results from in descending order
-        result.sort((a, b) => {
-            return b.length - a.length;
-        });
+  // ---------- FUNCTIONS ----------
+  const findLongestWord = (dictionary, randomStr) => {
+    // create characters map that contains number of occurences for each character from the random string
+    const charactersMap = randomStr
+      .toLowerCase()
+      .split("")
+      .reduce((allCharacters, currentCharacter, index, self) => {
+        const currentCount = allCharacters[currentCharacter] ?? 0;
+        return { ...allCharacters, [currentCharacter]: currentCount + 1 };
+      }, {});
 
-        return result;
-    };
+    return dictionary
+      .filter(
+        (word) =>
+          [...word].every((character) => charactersMap[character]--) && word
+      )
+      .sort((a, b) => b.length - a.length);
+  };
 
-    /**
-     * Get characters from input fields.
-     * @param {object} obj = node list.
-     * @returns {string}
-     */
-    const getChars = (obj) => {
-        const arr = [...obj];
-        return arr
-            .map((item) => {
-                if (item.value) {
-                    return item.value;
-                }
-            })
-            .join("");
-    };
-
-    /**
-     * Display all solutions in html.
-     * @param {array} results = the array of results
-     */
-    const showSolutions = (results, solution, otherSolutionsList) => {
-        // show the main solution
-        solution.value = results[0];
-        // if there are other solutions show them as well
-        if (results[1]) {
-            let otherSolutions = [];
-            for (let i = 1; i <= 5; i++) {
-                if (results[i]) {
-                    otherSolutions.push(results[i]);
-                }
-            }
-            otherSolutions = otherSolutions
-                .map((solution) => {
-                    return `<li>${solution}</li>`;
-                })
-                .join("");
-            otherSolutionsList.classList.add("active");
-            otherSolutionsList.querySelector("ul").innerHTML = otherSolutions;
+  /**
+   * Get characters from all input fields.
+   * @param {object} obj = node list.
+   * @returns {string}
+   */
+  const getChars = (obj) => {
+    const arr = [...obj];
+    return arr
+      .map((item) => {
+        if (item.value) {
+          return item.value;
         }
-    };
+      })
+      .join("");
+  };
 
-    function generateRandomChar() {
-        let azbuka = "абвгдђежзијклљмнњопрстћуфхцчџш";
-        return azbuka[Math.floor(Math.random() * azbuka.length)];
+  const generateRandomChar = (dictionary) => {
+    return dictionary[Math.floor(Math.random() * dictionary.length)];
+  };
+
+  // fetch json
+  const getDictionary = async (url) => {
+    try {
+      document.querySelector("main").style.display = "none";
+      const loading = document.createElement("div");
+      loading.classList.add("loading");
+      loading.innerHTML = `<h1>Учитавам речник...</h1>`;
+      document.body.appendChild(loading);
+
+      const response = await fetch(url);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const data = await getDictionary(
+    "https://raw.githubusercontent.com/bbtools-ps/slagalica/main/dict/sr-rs.json"
+  );
+  const dictionary = data.words.split(" ");
+
+  if (!dictionary.length) {
+    document.body.innerHTML = `<div class="loading"><h1>Грешка приликом учитавања речника!</h1></div>`;
+    return;
+  }
+
+  document.body.removeChild(document.querySelector(".loading"));
+  document.querySelector("main").style.display = "block";
+
+  // ---------- EVENT LISTENERS ----------
+  randomBtn.addEventListener("click", () => {
+    const dictionary = "абвгдђежзијклљмнњопрстћуфхцчџш";
+    inputCharacters.forEach((char) => {
+      char.value = generateRandomChar(dictionary);
+    });
+  });
+
+  resetBtn.addEventListener("click", () => {
+    inputCharacters.forEach((char) => {
+      char.value = "";
+    });
+    solution.value = "";
+    otherSolutionsList.classList.remove("active");
+  });
+
+  searchBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const randomString = getChars(inputCharacters);
+    const results = findLongestWord(dictionary, randomString);
+
+    if (!results.length) {
+      otherSolutionsList.classList.remove("active");
+      alert("Нема такве речи у речнику.");
+      return;
     }
 
-    // fetch json
-    const getDictionary = async (url) => {
-        document.querySelector("main").style.display = "none";
-        const loading = document.createElement("div");
-        loading.classList.add("loading");
-        loading.innerHTML = `<h1>Учитавам речник...</h1>`;
-        document.body.appendChild(loading);
+    // show the main solution
+    solution.value = results[0];
 
-        const response = await fetch(url);
-        const data = await response.json();
-        return data;
-    };
+    const otherSolutions = [...results]
+      .splice(1, 5)
+      .reduce(
+        (allSolutions, solution) => allSolutions + `<li>${solution}</li>`,
+        ""
+      );
 
-    getDictionary("./dict/sr-rs.json").then((data) => {
-        // ---------- VARIABLES ----------
-        const dictionary = data.words.split(" ");
-        const inputCharacters = document.querySelectorAll(".char");
-        const solution = document.querySelector(".solution");
-        const otherSolutionsList = document.querySelector(".other-solutions");
-        const searchBtn = document.querySelector(".search-btn");
-        const resetBtn = document.querySelector(".reset-btn");
-        const randomBtn = document.querySelector(".random-btn");
-
-        document.body.removeChild(document.querySelector(".loading"));
-        document.querySelector("main").style.display = "block";
-
-        // ---------- EVENT LISTENERS ----------
-        randomBtn.addEventListener("click", () => {
-            inputCharacters.forEach((char) => {
-                char.value = generateRandomChar();
-            });
-        });
-
-        resetBtn.addEventListener("click", () => {
-            inputCharacters.forEach((char) => {
-                char.value = "";
-            });
-            solution.value = "";
-            otherSolutionsList.classList.remove("active");
-        });
-
-        searchBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            const randomString = getChars(inputCharacters);
-            let results = [];
-            results = findLongestWord(dictionary, randomString);
-            results.length
-                ? showSolutions(results, solution, otherSolutionsList)
-                : alert("Нема такве речи у речнику.");
-        });
-    });
+    otherSolutionsList.classList.add("active");
+    otherSolutionsList.querySelector("ul").innerHTML = otherSolutions;
+  });
 })();
