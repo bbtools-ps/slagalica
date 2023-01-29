@@ -1,0 +1,33 @@
+{
+  "name": "slagalica",
+  "homepage": "https://bbtools-ps.github.io/slagalica",
+  "source": "src/index.html",
+  "version": "1.0.0",
+  "description": "Traženje najdužih reči od naizmeničnih slova. Inspirisano \"Slagalicom\" i igrom \"Slovo po slovo\".",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel",
+    "build": "parcel build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bbtools-ps/slagalica.git"
+  },
+  "keywords": [
+    "javascript",
+    "html",
+    "css"
+  ],
+  "author": "Bogdan Bogdanovic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bbtools-ps/slagalica/issues"
+  },
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "devDependencies": {
+    "gh-pages": "^5.0.0",
+    "parcel": "^2.8.3"
+  }
+}
