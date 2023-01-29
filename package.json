@@ -1,13 +1,13 @@
 {
   "name": "slagalica",
   "homepage": "https://bbtools-ps.github.io/slagalica",
-  "source": "src/index.html",
+  "default": "src/index.html",
   "version": "1.0.0",
   "description": "Traženje najdužih reči od naizmeničnih slova. Inspirisano \"Slagalicom\" i igrom \"Slovo po slovo\".",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel",
-    "build": "parcel build"
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html --dist-dir ./dist"
   },
   "repository": {
     "type": "git",
