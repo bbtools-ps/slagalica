@@ -576,7 +576,7 @@ var _utils = require("./utils");
     document.querySelector("main").style.display = "block";
     // ---------- EVENT LISTENERS ----------
     inputCharacters.forEach((item)=>item.addEventListener("input", function(e) {
-            this.value = e.target.value.replace(/\d+/g, "");
+            this.value = e.target.value.replace(/[^абвгдђежзијклљмнњопрстћуфхцчџш]/g, "");
             let lastElementIndex = (0, _utils.getLastInputElementIndex)(inputCharacters);
             inputCharacters[lastElementIndex !== inputCharacters.length - 1 && lastElementIndex !== -1 ? lastElementIndex + 1 : lastElementIndex !== -1 ? inputCharacters.length - 1 : 0].focus();
         }));

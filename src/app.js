@@ -32,7 +32,10 @@ import {
   // ---------- EVENT LISTENERS ----------
   inputCharacters.forEach((item) =>
     item.addEventListener("input", function (e) {
-      this.value = e.target.value.replace(/\d+/g, "");
+      this.value = e.target.value.replace(
+        /[^абвгдђежзијклљмнњопрстћуфхцчџш]/g,
+        ""
+      );
       let lastElementIndex = getLastInputElementIndex(inputCharacters);
       inputCharacters[
         lastElementIndex !== inputCharacters.length - 1 &&
