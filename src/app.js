@@ -33,7 +33,7 @@ import {
   inputCharacters.forEach((item) =>
     item.addEventListener("input", function (e) {
       this.value = e.target.value.replace(
-        /[^абвгдђежзијклљмнњопрстћуфхцчџш]/g,
+        /[^абвгдђежзијклљмнњопрстћуфхцчџшАБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШ]/g,
         ""
       );
       let lastElementIndex = getLastInputElementIndex(inputCharacters);
