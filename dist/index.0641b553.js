@@ -637,9 +637,14 @@ const findLongestWord = (dictionary, randomStr)=>{
             [currentCharacter]: currentCount + 1
         };
     }, {});
-    return dictionary.filter((word)=>[
+    return dictionary.filter((word)=>{
+        const charactersMapCopy = {
+            ...charactersMap
+        };
+        return [
             ...word
-        ].every((character)=>charactersMap[character]--) && word).sort((a, b)=>b.length - a.length);
+        ].every((character)=>charactersMapCopy[character]--) && word;
+    }).sort((a, b)=>b.length - a.length);
 };
 const getDictionary = async (url)=>{
     try {

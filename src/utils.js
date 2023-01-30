@@ -9,10 +9,12 @@ export const findLongestWord = (dictionary, randomStr) => {
     }, {});
 
   return dictionary
-    .filter(
-      (word) =>
-        [...word].every((character) => charactersMap[character]--) && word
-    )
+    .filter((word) => {
+      const charactersMapCopy = { ...charactersMap };
+      return (
+        [...word].every((character) => charactersMapCopy[character]--) && word
+      );
+    })
     .sort((a, b) => b.length - a.length);
 };
 
