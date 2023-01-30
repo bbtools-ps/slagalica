@@ -578,7 +578,7 @@ var _utils = require("./utils");
     inputCharacters.forEach((item)=>item.addEventListener("input", function(e) {
             this.value = e.target.value.replace(/\d+/g, "");
             let lastElementIndex = (0, _utils.getLastInputElementIndex)(inputCharacters);
-            inputCharacters[lastElementIndex !== inputCharacters.length - 1 && lastElementIndex !== -1 ? lastElementIndex + 1 : inputCharacters.length - 1].focus();
+            inputCharacters[lastElementIndex !== inputCharacters.length - 1 && lastElementIndex !== -1 ? lastElementIndex + 1 : lastElementIndex !== -1 ? inputCharacters.length - 1 : 0].focus();
         }));
     document.addEventListener("keydown", (e)=>{
         if (e.key === "Backspace") {

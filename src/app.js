@@ -38,7 +38,9 @@ import {
         lastElementIndex !== inputCharacters.length - 1 &&
         lastElementIndex !== -1
           ? lastElementIndex + 1
-          : inputCharacters.length - 1
+          : lastElementIndex !== -1
+          ? inputCharacters.length - 1
+          : 0
       ].focus();
     })
   );
