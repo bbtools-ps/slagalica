@@ -563,9 +563,9 @@ var _utils = require("./utils");
     const inputCharacters = document.querySelectorAll(".char");
     const solution = document.querySelector(".solution");
     const otherSolutionsList = document.querySelector(".other-solutions");
-    const searchBtn = document.querySelector(".search-btn");
-    const resetBtn = document.querySelector(".reset-btn");
-    const randomBtn = document.querySelector(".random-btn");
+    const btnSearch = document.querySelector(".btn-search");
+    const btnReset = document.querySelector(".btn-reset");
+    const btnRandom = document.querySelector(".btn-random");
     const data = await (0, _utils.getDictionary)("https://raw.githubusercontent.com/bbtools-ps/slagalica/main/dict/sr-rs.json");
     const dictionary = data?.words.split(" ");
     if (!dictionary?.length) {
@@ -575,31 +575,33 @@ var _utils = require("./utils");
     document.body.removeChild(document.querySelector(".loading"));
     document.querySelector("main").style.display = "block";
     // ---------- EVENT LISTENERS ----------
-    inputCharacters.forEach((item)=>item.addEventListener("input", ()=>{
-            const lastElementIndex = (0, _utils.getLastInputElementIndex)(inputCharacters);
-            inputCharacters[lastElementIndex !== inputCharacters.length - 1 ? lastElementIndex + 1 : inputCharacters.length - 1].focus();
+    inputCharacters.forEach((item)=>item.addEventListener("input", function(e) {
+            this.value = e.target.value.replace(/\d+/g, "");
+            let lastElementIndex = (0, _utils.getLastInputElementIndex)(inputCharacters);
+            inputCharacters[lastElementIndex !== inputCharacters.length - 1 && lastElementIndex !== -1 ? lastElementIndex + 1 : inputCharacters.length - 1].focus();
         }));
     document.addEventListener("keydown", (e)=>{
         if (e.key === "Backspace") {
-            const lastElementIndex = (0, _utils.getLastInputElementIndex)(inputCharacters);
+            let lastElementIndex = (0, _utils.getLastInputElementIndex)(inputCharacters);
+            lastElementIndex = lastElementIndex !== -1 ? lastElementIndex : 0;
             inputCharacters[lastElementIndex].value = "";
             inputCharacters[lastElementIndex].focus();
         }
     });
-    randomBtn.addEventListener("click", ()=>{
+    btnRandom.addEventListener("click", ()=>{
         const dictionary = "абвгдђежзијклљмнњопрстћуфхцчџш";
         inputCharacters.forEach((char)=>{
             char.value = (0, _utils.generateRandomChar)(dictionary);
         });
     });
-    resetBtn.addEventListener("click", ()=>{
+    btnReset.addEventListener("click", ()=>{
         inputCharacters.forEach((char)=>{
             char.value = "";
         });
         solution.value = "";
         otherSolutionsList.classList.remove("active");
     });
-    searchBtn.addEventListener("click", (e)=>{
+    btnSearch.addEventListener("click", (e)=>{
         e.preventDefault();
         const randomString = (0, _utils.getChars)(inputCharacters);
         const results = (0, _utils.findLongestWord)(dictionary, randomString);
@@ -662,10 +664,9 @@ const generateRandomChar = (dictionary)=>{
     return dictionary[Math.floor(Math.random() * dictionary.length)];
 };
 const getLastInputElementIndex = (inputs)=>{
-    const lastInputIndex = [
+    return [
         ...inputs
     ].findLastIndex((input)=>input.value);
-    return lastInputIndex !== -1 ? lastInputIndex : 0;
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {

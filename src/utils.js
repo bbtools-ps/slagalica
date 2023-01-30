@@ -50,6 +50,5 @@ export const generateRandomChar = (dictionary) => {
 };
 
 export const getLastInputElementIndex = (inputs) => {
-  const lastInputIndex = [...inputs].findLastIndex((input) => input.value);
-  return lastInputIndex !== -1 ? lastInputIndex : 0;
+  return [...inputs].findLastIndex((input) => input.value);
 };

@@ -11,9 +11,9 @@ import {
   const inputCharacters = document.querySelectorAll(".char");
   const solution = document.querySelector(".solution");
   const otherSolutionsList = document.querySelector(".other-solutions");
-  const searchBtn = document.querySelector(".search-btn");
-  const resetBtn = document.querySelector(".reset-btn");
-  const randomBtn = document.querySelector(".random-btn");
+  const btnSearch = document.querySelector(".btn-search");
+  const btnReset = document.querySelector(".btn-reset");
+  const btnRandom = document.querySelector(".btn-random");
 
   const data = await getDictionary(
     "https://raw.githubusercontent.com/bbtools-ps/slagalica/main/dict/sr-rs.json"
@@ -31,10 +31,12 @@ import {
 
   // ---------- EVENT LISTENERS ----------
   inputCharacters.forEach((item) =>
-    item.addEventListener("input", () => {
-      const lastElementIndex = getLastInputElementIndex(inputCharacters);
+    item.addEventListener("input", function (e) {
+      this.value = e.target.value.replace(/\d+/g, "");
+      let lastElementIndex = getLastInputElementIndex(inputCharacters);
       inputCharacters[
-        lastElementIndex !== inputCharacters.length - 1
+        lastElementIndex !== inputCharacters.length - 1 &&
+        lastElementIndex !== -1
           ? lastElementIndex + 1
           : inputCharacters.length - 1
       ].focus();
@@ -43,20 +45,21 @@ import {
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Backspace") {
-      const lastElementIndex = getLastInputElementIndex(inputCharacters);
+      let lastElementIndex = getLastInputElementIndex(inputCharacters);
+      lastElementIndex = lastElementIndex !== -1 ? lastElementIndex : 0;
       inputCharacters[lastElementIndex].value = "";
       inputCharacters[lastElementIndex].focus();
     }
   });
 
-  randomBtn.addEventListener("click", () => {
+  btnRandom.addEventListener("click", () => {
     const dictionary = "абвгдђежзијклљмнњопрстћуфхцчџш";
     inputCharacters.forEach((char) => {
       char.value = generateRandomChar(dictionary);
     });
   });
 
-  resetBtn.addEventListener("click", () => {
+  btnReset.addEventListener("click", () => {
     inputCharacters.forEach((char) => {
       char.value = "";
     });
@@ -64,7 +67,7 @@ import {
     otherSolutionsList.classList.remove("active");
   });
 
-  searchBtn.addEventListener("click", (e) => {
+  btnSearch.addEventListener("click", (e) => {
     e.preventDefault();
     const randomString = getChars(inputCharacters);
     const results = findLongestWord(dictionary, randomString);
