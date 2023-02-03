@@ -21,16 +21,12 @@ export const findLongestWord = (dictionary, randomStr) => {
 // fetch json
 export const getDictionary = async (url) => {
   try {
-    document.querySelector("main").style.display = "none";
-    const loading = document.createElement("div");
-    loading.classList.add("loading");
-    loading.innerHTML = `<h1>Учитавам речник...</h1>`;
-    document.body.appendChild(loading);
-
     const response = await fetch(url);
     const data = await response.json();
     return data;
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 /**

@@ -14,20 +14,36 @@ import {
   const btnSearch = document.querySelector(".btn-search");
   const btnReset = document.querySelector(".btn-reset");
   const btnRandom = document.querySelector(".btn-random");
+  let dictionary;
 
-  const data = await getDictionary(
-    "https://raw.githubusercontent.com/bbtools-ps/slagalica/main/dict/sr-rs.json"
-  );
+  const main = async () => {
+    // LOADING screen
+    document.querySelector("main").style.display = "none";
+    const loading = document.createElement("div");
+    loading.classList.add("loading");
+    loading.innerHTML = `<h1>Учитавам речник...</h1>`;
+    document.body.appendChild(loading);
 
-  const dictionary = data?.words.split(" ");
+    // Get data
+    const data = await getDictionary(
+      "https://raw.githubusercontent.com/bbtools-ps/slagalica/main/dict/sr-rs.json"
+    );
 
-  if (!dictionary?.length) {
-    document.body.innerHTML = `<div class="loading"><h1>Грешка приликом учитавања речника!</h1></div>`;
-    return;
-  }
+    // Transform JSON data into array
+    dictionary = data?.words.split(" ");
 
-  document.body.removeChild(document.querySelector(".loading"));
-  document.querySelector("main").style.display = "block";
+    // ERROR screen
+    if (!dictionary?.length) {
+      document.body.innerHTML = `<div class="loading"><h1>Грешка приликом учитавања речника!</h1></div>`;
+      return;
+    }
+
+    // HOME screen
+    document.body.removeChild(document.querySelector(".loading"));
+    document.querySelector("main").style.display = "block";
+  };
+
+  await main();
 
   // ---------- EVENT LISTENERS ----------
   inputCharacters.forEach((item) =>
