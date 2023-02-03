@@ -1,9 +1,10 @@
 import {
   findLongestWord,
+  findNextEmptyElementIndex,
+  findPreviousNotEmptyElementIndex,
   generateRandomChar,
   getChars,
   getDictionary,
-  getLastInputElementIndex,
 } from "./utils";
 
 (async function () {
@@ -46,29 +47,31 @@ import {
   await main();
 
   // ---------- EVENT LISTENERS ----------
-  inputCharacters.forEach((item) =>
+  inputCharacters.forEach((item, index) =>
     item.addEventListener("input", function (e) {
       this.value = e.target.value.replace(
         /[^абвгдђежзијклљмнњопрстћуфхцчџшАБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШ]/g,
         ""
       );
-      let lastElementIndex = getLastInputElementIndex(inputCharacters);
-      inputCharacters[
-        lastElementIndex !== inputCharacters.length - 1 &&
-        lastElementIndex !== -1
-          ? lastElementIndex + 1
-          : lastElementIndex !== -1
-          ? inputCharacters.length - 1
-          : 0
-      ].focus();
+      if (!this.value) return;
+      const nextElementIndex = findNextEmptyElementIndex(
+        inputCharacters,
+        index
+      );
+      inputCharacters[nextElementIndex].focus();
     })
   );
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Backspace") {
-      let lastElementIndex = getLastInputElementIndex(inputCharacters);
-      lastElementIndex = lastElementIndex !== -1 ? lastElementIndex : 0;
-      inputCharacters[lastElementIndex].focus();
+      const currentElementIndex = e.target.id
+        ? Number(e.target.id.replace(/[a-zA-Z-]+/g, ""))
+        : inputCharacters.length - 1;
+      const previousElementIndex = findPreviousNotEmptyElementIndex(
+        inputCharacters,
+        currentElementIndex
+      );
+      inputCharacters[previousElementIndex].focus();
     }
   });
 

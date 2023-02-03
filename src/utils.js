@@ -45,6 +45,16 @@ export const generateRandomChar = (dictionary) => {
   return dictionary[Math.floor(Math.random() * dictionary.length)];
 };
 
-export const getLastInputElementIndex = (inputs) => {
-  return [...inputs].findLastIndex((input) => input.value);
+export const findNextEmptyElementIndex = (inputs, startIndex) => {
+  const elementIndex = [...inputs].findIndex(
+    (input, index) => !input.value && index > startIndex
+  );
+  return elementIndex !== -1 ? elementIndex : startIndex;
+};
+
+export const findPreviousNotEmptyElementIndex = (inputs, startIndex) => {
+  const elementIndex = [...inputs].findLastIndex(
+    (input, index) => input.value && index <= startIndex
+  );
+  return elementIndex !== -1 ? elementIndex : startIndex;
 };
