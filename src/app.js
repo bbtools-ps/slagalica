@@ -29,7 +29,6 @@ import {
   document.body.removeChild(document.querySelector(".loading"));
   document.querySelector("main").style.display = "block";
 
-  console.log("aaa");
   // ---------- EVENT LISTENERS ----------
   inputCharacters.forEach((item) =>
     item.addEventListener("input", function (e) {
@@ -51,7 +50,6 @@ import {
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Backspace") {
-      console.log(inputCharacters);
       let lastElementIndex = getLastInputElementIndex(inputCharacters);
       lastElementIndex = lastElementIndex !== -1 ? lastElementIndex : 0;
       inputCharacters[lastElementIndex].focus();
