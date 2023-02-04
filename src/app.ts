@@ -9,18 +9,22 @@ import {
 
 (async function () {
   // ---------- VARIABLES ----------
-  const inputCharacters = document.querySelectorAll(".char");
-  const solution = document.querySelector(".solution");
-  const otherSolutionsList = document.querySelector(".other-solutions");
+  const inputCharacters = document.querySelectorAll(
+    ".char"
+  ) as NodeListOf<HTMLInputElement>;
+  const solution = document.querySelector(".solution") as HTMLInputElement;
+  const otherSolutionsList = document.querySelector(
+    ".other-solutions"
+  ) as HTMLDivElement;
   const btnSearch = document.querySelector(".btn-search");
   const btnReset = document.querySelector(".btn-reset");
   const btnRandom = document.querySelector(".btn-random");
   const letters = document.querySelector(".letters");
-  let dictionary;
+  let dictionary: string[];
 
   const main = async () => {
     // LOADING screen
-    document.querySelector("main").style.display = "none";
+    document.querySelector("main")!.style.display = "none";
     const loading = document.createElement("div");
     loading.classList.add("loading");
     loading.innerHTML = `<h1>Учитавам речник...</h1>`;
@@ -42,58 +46,60 @@ import {
 
     // HOME screen
     loading.remove();
-    document.querySelector("main").style.display = "block";
+    document.querySelector("main")!.style.display = "block";
   };
 
   await main();
 
   // ---------- EVENT LISTENERS ----------
-  letters.addEventListener("input", function (e) {
+  letters?.addEventListener("input", function (e) {
+    const target = e.target as HTMLInputElement;
     // Matching only input fields
-    if (e.target.tagName.toLowerCase() !== "input") return;
+    if (target.tagName.toLowerCase() !== "input") return;
 
-    e.target.value = e.target.value.replace(
+    target.value = target.value.replace(
       /[^абвгдђежзијклљмнњопрстћуфхцчџшАБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШ]/g,
       ""
     );
 
-    if (!e.target.value) return;
+    if (!target.value) return;
 
     const nextElementIndex = findNextEmptyElementIndex(
       inputCharacters,
-      e.target.dataset.charIdx
+      Number(target.dataset.charIdx)
     );
     inputCharacters[nextElementIndex].focus();
   });
 
   document.addEventListener("keydown", (e) => {
+    const target = e.target as HTMLInputElement;
     if (e.key === "Backspace") {
       const currentElementIndex =
-        e.target.dataset.charIdx ?? inputCharacters.length - 1;
+        target.dataset.charIdx ?? inputCharacters.length - 1;
       const previousElementIndex = findPreviousNotEmptyElementIndex(
         inputCharacters,
-        currentElementIndex
+        Number(currentElementIndex)
       );
       inputCharacters[previousElementIndex].focus();
     }
   });
 
-  btnRandom.addEventListener("click", () => {
+  btnRandom?.addEventListener("click", () => {
     const dictionary = "абвгдђежзијклљмнњопрстћуфхцчџш";
     inputCharacters.forEach((char) => {
       char.value = generateRandomChar(dictionary);
     });
   });
 
-  btnReset.addEventListener("click", () => {
+  btnReset?.addEventListener("click", () => {
     inputCharacters.forEach((char) => {
       char.value = "";
     });
-    solution.value = "";
+    solution!.value = "";
     otherSolutionsList.classList.remove("active");
   });
 
-  btnSearch.addEventListener("click", (e) => {
+  btnSearch?.addEventListener("click", (e) => {
     e.preventDefault();
     const randomString = getChars(inputCharacters);
     const results = findLongestWord(dictionary, randomString);
@@ -115,6 +121,6 @@ import {
       );
 
     otherSolutionsList.classList.add("active");
-    otherSolutionsList.querySelector("ul").innerHTML = otherSolutions;
+    otherSolutionsList.querySelector("ul")!.innerHTML = otherSolutions;
   });
 })();

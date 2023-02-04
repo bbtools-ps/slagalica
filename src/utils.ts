@@ -1,4 +1,4 @@
-export const findLongestWord = (dictionary, randomStr) => {
+export const findLongestWord = (dictionary: string[], randomStr: string) => {
   // create characters map that contains number of occurences for each character from the random string
   const charactersMap = randomStr
     .toLowerCase()
@@ -19,7 +19,7 @@ export const findLongestWord = (dictionary, randomStr) => {
 };
 
 // fetch json
-export const getDictionary = async (url) => {
+export const getDictionary = async (url: string) => {
   try {
     const response = await fetch(url);
     const data = await response.json();
@@ -29,30 +29,31 @@ export const getDictionary = async (url) => {
   }
 };
 
-/**
- * Get characters from all input fields.
- * @param {object} obj = node list.
- * @returns {string}
- */
-export const getChars = (obj) => {
+export const getChars = (obj: NodeListOf<HTMLInputElement>) => {
   return [...obj].reduce(
     (acc, curr) => (curr.value ? acc + curr.value : acc),
     ""
   );
 };
 
-export const generateRandomChar = (dictionary) => {
+export const generateRandomChar = (dictionary: string) => {
   return dictionary[Math.floor(Math.random() * dictionary.length)];
 };
 
-export const findNextEmptyElementIndex = (inputs, startIndex) => {
+export const findNextEmptyElementIndex = (
+  inputs: NodeListOf<HTMLInputElement>,
+  startIndex: number
+) => {
   const elementIndex = [...inputs].findIndex(
     (input, index) => !input.value && index > startIndex
   );
   return elementIndex !== -1 ? elementIndex : startIndex;
 };
 
-export const findPreviousNotEmptyElementIndex = (inputs, startIndex) => {
+export const findPreviousNotEmptyElementIndex = (
+  inputs: NodeListOf<HTMLInputElement>,
+  startIndex: number
+) => {
   const elementIndex = [...inputs].findLastIndex(
     (input, index) => input.value && index <= startIndex
   );
