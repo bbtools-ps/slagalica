@@ -5,6 +5,7 @@ import {
   generateRandomChar,
   getChars,
   getDictionary,
+  getIndexFromId,
 } from "./utils";
 
 (async function () {
@@ -15,6 +16,7 @@ import {
   const btnSearch = document.querySelector(".btn-search");
   const btnReset = document.querySelector(".btn-reset");
   const btnRandom = document.querySelector(".btn-random");
+  const letters = document.querySelector(".letters");
   let dictionary;
 
   const main = async () => {
@@ -47,25 +49,28 @@ import {
   await main();
 
   // ---------- EVENT LISTENERS ----------
-  inputCharacters.forEach((item, index) =>
-    item.addEventListener("input", function (e) {
-      this.value = e.target.value.replace(
-        /[^абвгдђежзијклљмнњопрстћуфхцчџшАБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШ]/g,
-        ""
-      );
-      if (!this.value) return;
-      const nextElementIndex = findNextEmptyElementIndex(
-        inputCharacters,
-        index
-      );
-      inputCharacters[nextElementIndex].focus();
-    })
-  );
+  letters.addEventListener("input", function (e) {
+    // Matching only input fields
+    if (e.target.tagName !== "INPUT") return;
+
+    e.target.value = e.target.value.replace(
+      /[^абвгдђежзијклљмнњопрстћуфхцчџшАБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШ]/g,
+      ""
+    );
+
+    if (!e.target.value) return;
+
+    const nextElementIndex = findNextEmptyElementIndex(
+      inputCharacters,
+      getIndexFromId(e.target.id)
+    );
+    inputCharacters[nextElementIndex].focus();
+  });
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Backspace") {
       const currentElementIndex = e.target.id
-        ? Number(e.target.id.replace(/[a-zA-Z-]+/g, ""))
+        ? getIndexFromId(e.target.id)
         : inputCharacters.length - 1;
       const previousElementIndex = findPreviousNotEmptyElementIndex(
         inputCharacters,
