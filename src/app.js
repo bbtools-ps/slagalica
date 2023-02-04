@@ -51,7 +51,7 @@ import {
   // ---------- EVENT LISTENERS ----------
   letters.addEventListener("input", function (e) {
     // Matching only input fields
-    if (e.target.tagName !== "INPUT") return;
+    if (e.target.tagName.toLowerCase() !== "input") return;
 
     e.target.value = e.target.value.replace(
       /[^абвгдђежзијклљмнњопрстћуфхцчџшАБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШ]/g,
