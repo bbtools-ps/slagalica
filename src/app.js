@@ -62,15 +62,15 @@ import {
 
     const nextElementIndex = findNextEmptyElementIndex(
       inputCharacters,
-      getIndexFromId(e.target.id)
+      getIndexFromId(e.target.dataset.charIdx)
     );
     inputCharacters[nextElementIndex].focus();
   });
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Backspace") {
-      const currentElementIndex = e.target.id
-        ? getIndexFromId(e.target.id)
+      const currentElementIndex = e.target.dataset.charIdx
+        ? getIndexFromId(e.target.dataset.charIdx)
         : inputCharacters.length - 1;
       const previousElementIndex = findPreviousNotEmptyElementIndex(
         inputCharacters,

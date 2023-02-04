@@ -58,7 +58,3 @@ export const findPreviousNotEmptyElementIndex = (inputs, startIndex) => {
   );
   return elementIndex !== -1 ? elementIndex : startIndex;
 };
-
-export const getIndexFromId = (id) => {
-  return Number(id.replace(/[a-zA-Z-]+/g, ""));
-};
