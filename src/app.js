@@ -5,7 +5,6 @@ import {
   generateRandomChar,
   getChars,
   getDictionary,
-  getIndexFromId,
 } from "./utils";
 
 (async function () {
@@ -62,16 +61,15 @@ import {
 
     const nextElementIndex = findNextEmptyElementIndex(
       inputCharacters,
-      getIndexFromId(e.target.dataset.charIdx)
+      e.target.dataset.charIdx
     );
     inputCharacters[nextElementIndex].focus();
   });
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Backspace") {
-      const currentElementIndex = e.target.dataset.charIdx
-        ? getIndexFromId(e.target.dataset.charIdx)
-        : inputCharacters.length - 1;
+      const currentElementIndex =
+        e.target.dataset.charIdx ?? inputCharacters.length - 1;
       const previousElementIndex = findPreviousNotEmptyElementIndex(
         inputCharacters,
         currentElementIndex
