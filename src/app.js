@@ -23,7 +23,7 @@ import {
     const loading = document.createElement("div");
     loading.classList.add("loading");
     loading.innerHTML = `<h1>Учитавам речник...</h1>`;
-    document.body.appendChild(loading);
+    document.body.append(loading);
 
     // Get data
     const data = await getDictionary(
@@ -40,7 +40,7 @@ import {
     }
 
     // HOME screen
-    document.body.removeChild(document.querySelector(".loading"));
+    loading.remove();
     document.querySelector("main").style.display = "block";
   };
 
