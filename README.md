@@ -7,7 +7,7 @@ English: Searching for the longest words from the random letters. Insipred by TV
 
 - HTML
 - CSS
-- Vanilla JavaScript
+- Typescript (Javascript)
 
 ## Architecture
 
