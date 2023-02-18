@@ -10,7 +10,7 @@ class App {
 
   renderLoading() {
     this._createElement();
-    this._loadingElement.innerHTML = `<h1>Учитавам речник...</h1>`;
+    this._loadingElement.innerHTML = `<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>`;
 
     this._parentElement?.insertAdjacentElement(
       "beforebegin",
@@ -19,7 +19,7 @@ class App {
   }
 
   renderError(message: string) {
-    this._loadingElement.innerHTML = `<h1>${message}</h1>`;
+    this._loadingElement.innerHTML = `<h1 class="white">${message}</h1>`;
   }
 
   handleForm(handler: (payload: SubmitEvent) => void) {
