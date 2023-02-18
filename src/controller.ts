@@ -1,5 +1,6 @@
 import * as model from "./model";
 import {
+  captalize,
   findNextEmptyElementIndex,
   findPreviousNotEmptyElementIndex,
   generateRandomChar,
@@ -16,10 +17,12 @@ import OtherSolutions from "./views/OtherSolutions";
     const inputChars = Inputs.inputChars;
 
     Inputs.handleAddLetters((target) => {
-      target.value = target.value.replace(
-        /[^абвгдђежзијклљмнњопрстћуфхцчџшАБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШ]/g,
-        ""
-      );
+      target.value = target.value
+        .replace(
+          /[^абвгдђежзијклљмнњопрстћуфхцчџшАБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШ]/g,
+          ""
+        )
+        .toUpperCase();
 
       if (!target.value) return;
 
@@ -54,8 +57,13 @@ import OtherSolutions from "./views/OtherSolutions";
       if (!model.state.search.results.length)
         return alert("Нема такве речи у речнику.");
 
-      MainSolution.renderSolution(model.state.search.results[0]);
-      OtherSolutions.renderSolutions(model.state.search.results.slice(1, 6));
+      const [mainSolution] = model.state.search.results;
+      const otherSolutions = model.state.search.results
+        .slice(1, 6)
+        .map((item) => captalize(item));
+
+      MainSolution.renderSolution(mainSolution.toUpperCase());
+      OtherSolutions.renderSolutions(otherSolutions);
     });
   };
 
@@ -69,7 +77,7 @@ import OtherSolutions from "./views/OtherSolutions";
 
   const controlGenerateRandomChars = () => {
     Options.handleRandom(() => {
-      const dictionary = "абвгдђежзијклљмнњопрстћуфхцчџш";
+      const dictionary = "АБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШ";
       const inputChars = Inputs.inputChars;
 
       MainSolution.reset();

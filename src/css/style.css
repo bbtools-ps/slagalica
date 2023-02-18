@@ -54,7 +54,6 @@ input[type="text"] {
   width: 100%;
   font-size: 2rem;
   text-align: center;
-  text-transform: uppercase;
   border-radius: 0.3rem;
   background-color: var(--dark-blue);
   color: var(--white);
@@ -79,7 +78,6 @@ button:hover {
 }
 
 li {
-  text-transform: capitalize;
   line-height: 1.5rem;
   color: var(--white);
 }
@@ -116,10 +114,6 @@ li {
 
 .other-solutions h2 {
   margin-top: 0;
-}
-
-.active {
-  display: block;
 }
 
 .inputs-wrapper {

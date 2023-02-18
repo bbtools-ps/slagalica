@@ -1,13 +1,8 @@
-export const getChars = (obj: NodeListOf<HTMLInputElement>) => {
-  return [...obj].reduce(
-    (acc, curr) => (curr.value ? acc + curr.value : acc),
-    ""
-  );
-};
+export const getChars = (obj: NodeListOf<HTMLInputElement>) =>
+  [...obj].reduce((acc, curr) => (curr.value ? acc + curr.value : acc), "");
 
-export const generateRandomChar = (dictionary: string) => {
-  return dictionary[Math.floor(Math.random() * dictionary.length)];
-};
+export const generateRandomChar = (dictionary: string) =>
+  dictionary[Math.floor(Math.random() * dictionary.length)];
 
 export const findNextEmptyElementIndex = (
   inputs: NodeListOf<HTMLInputElement>,
@@ -28,3 +23,5 @@ export const findPreviousNotEmptyElementIndex = (
   );
   return elementIndex !== -1 ? elementIndex : startIndex;
 };
+
+export const captalize = (str: string) => str[0].toUpperCase() + str.slice(1);
