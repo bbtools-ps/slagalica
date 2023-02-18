@@ -3,7 +3,7 @@ class App {
   protected _loadingElement: Element;
   protected _form = document.querySelector("form");
 
-  _createElement() {
+  protected _createElement() {
     this._loadingElement = document.createElement("div");
     this._loadingElement.classList.add("loading");
   }
@@ -19,13 +19,7 @@ class App {
   }
 
   renderError(message: string) {
-    this._createElement();
     this._loadingElement.innerHTML = `<h1>${message}</h1>`;
-
-    this._parentElement?.insertAdjacentElement(
-      "afterbegin",
-      this._loadingElement
-    );
   }
 
   handleForm(handler: (payload: SubmitEvent) => void) {
