@@ -51,7 +51,8 @@ import OtherSolutions from "./views/OtherSolutions";
 
       model.findWords(searchQuery);
 
-      if (!model.state.search.results.length) return;
+      if (!model.state.search.results.length)
+        return alert("Нема такве речи у речнику.");
 
       MainSolution.renderSolution(model.state.search.results[0]);
       OtherSolutions.renderSolutions(model.state.search.results.slice(1, 6));
