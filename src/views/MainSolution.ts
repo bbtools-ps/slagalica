@@ -5,11 +5,13 @@ class MainSolution {
 
   reset() {
     this._parentElement.value = "";
+    this._parentElement.classList.remove("solved");
   }
 
   renderSolution(value: string) {
     if (!this._parentElement) return;
     this._parentElement.value = value;
+    this._parentElement.classList.add("solved");
   }
 }
 
