@@ -72,6 +72,9 @@ import OtherSolutions from "./views/OtherSolutions";
       const dictionary = "абвгдђежзијклљмнњопрстћуфхцчџш";
       const inputChars = Inputs.inputChars;
 
+      MainSolution.reset();
+      OtherSolutions.reset();
+
       inputChars.forEach((char) => {
         char.value = generateRandomChar(dictionary);
       });
