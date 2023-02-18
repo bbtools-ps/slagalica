@@ -11,7 +11,7 @@ English: Searching for the longest words from the random letters. Insipred by TV
 
 ## Architecture
 
-This project uses MVC architecture (Model View Controller).
+To ensure better structure, maintainability, and expandability, this project uses [MVC architecure](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller).
 
 # NPM commands
 
