@@ -6,22 +6,26 @@ export const generateRandomChar = (dictionary: string) =>
 
 export const findNextEmptyElementIndex = (
   inputs: NodeListOf<HTMLInputElement>,
-  startIndex: number
+  currentInputIndex: number
 ) => {
+  if (!inputs || currentInputIndex === undefined)
+    throw new Error("Required arguments are not defined");
   const elementIndex = [...inputs].findIndex(
-    (input, index) => !input.value && index > startIndex
+    (input, index) => !input.value && index > currentInputIndex
   );
-  return elementIndex !== -1 ? elementIndex : startIndex;
+  return elementIndex !== -1 ? elementIndex : currentInputIndex;
 };
 
 export const findPreviousNotEmptyElementIndex = (
   inputs: NodeListOf<HTMLInputElement>,
-  startIndex: number
+  currentInputIndex: number
 ) => {
+  if (!inputs || currentInputIndex === undefined)
+    throw new Error("Required arguments are not defined");
   const elementIndex = [...inputs].findLastIndex(
-    (input, index) => input.value && index <= startIndex
+    (input, index) => input.value && index <= currentInputIndex
   );
-  return elementIndex !== -1 ? elementIndex : startIndex;
+  return elementIndex !== -1 ? elementIndex : currentInputIndex;
 };
 
 export const captalize = (str: string) =>

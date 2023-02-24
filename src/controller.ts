@@ -1,3 +1,4 @@
+import { CHAR_DICTIONARY } from "./config";
 import * as model from "./model";
 import {
   captalize,
@@ -77,14 +78,13 @@ import OtherSolutions from "./views/OtherSolutions";
 
   const controlGenerateRandomChars = () => {
     Options.handleRandom(() => {
-      const dictionary = "АБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШ";
       const inputChars = Inputs.inputChars;
 
       MainSolution.reset();
       OtherSolutions.reset();
 
       inputChars.forEach((char) => {
-        char.value = generateRandomChar(dictionary);
+        char.value = generateRandomChar(CHAR_DICTIONARY);
       });
     });
   };
