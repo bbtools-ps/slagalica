@@ -24,4 +24,5 @@ export const findPreviousNotEmptyElementIndex = (
   return elementIndex !== -1 ? elementIndex : startIndex;
 };
 
-export const captalize = (str: string) => str[0].toUpperCase() + str.slice(1);
+export const captalize = (str: string) =>
+  str[0].toUpperCase() + str.slice(1).toLowerCase();
