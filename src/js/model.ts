@@ -29,7 +29,7 @@ export const getDictionary = async () => {
 
     const data: Data = await response.json();
 
-    state.dictionary = data.words.split(" ");
+    state.dictionary = data.words?.split(" ");
   } catch (error) {
     throw error;
   }
