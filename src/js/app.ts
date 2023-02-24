@@ -1,3 +1,4 @@
+import "core-js/stable/array/find-last-index";
 import { CHAR_DICTIONARY } from "./config";
 import * as model from "./model";
 import {
