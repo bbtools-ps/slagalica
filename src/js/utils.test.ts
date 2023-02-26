@@ -10,7 +10,7 @@ import {
   getChars,
 } from "./utils";
 
-const htmlDocPath = path.join(process.cwd(), "./src/index.html");
+const htmlDocPath = path.join(process.cwd(), "./index.html");
 const htmlDocContent = fs.readFileSync(htmlDocPath).toString();
 
 const window = new Window();
