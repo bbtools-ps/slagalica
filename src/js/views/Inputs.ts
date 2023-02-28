@@ -48,16 +48,13 @@ class InputsView extends View {
     let inputChars: string[] = [];
 
     for (let i = 0; i < INPUT_CHARS_LENGTH; i++) {
-      inputChars.push(`<label for="char-${i + 1}" hidden>Слово ${
-        i + 1
-      }</label><input
+      inputChars.push(`<input
       type="text"
       maxlength="1"
       class="char"
       data-char-idx=${i}
       value=""
-      name="char-${i + 1}"
-      id="char-${i + 1}"
+      aria-label="слово ${i + 1}"
     />`);
     }
 
