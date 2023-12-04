@@ -19,20 +19,15 @@ export const state: State = {
 };
 
 export const getDictionary = async () => {
-  try {
-    const response = await fetch(DICTIONARY_URL);
+  const response = await fetch(DICTIONARY_URL);
 
-    if (!response.ok)
-      throw new Error(
-        `Грешка приликом учитавања речника! (${response.status})`
-      );
-
-    const data: Data = await response.json();
-
-    state.dictionary = data.words?.split(" ");
-  } catch (error) {
-    throw error;
+  if (!response.ok) {
+    throw new Error(`Грешка приликом учитавања речника! (${response.status})`);
   }
+
+  const data: Data = await response.json();
+
+  state.dictionary = data.words?.split(" ");
 };
 
 export const findWords = (query: string) => {
