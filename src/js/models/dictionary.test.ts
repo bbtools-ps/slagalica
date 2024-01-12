@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { getDictionary } from "./model";
+import { getDictionary } from "./dictionary";
 
 const testResponseData = { data: "dictionary of words" };
 
@@ -37,9 +37,7 @@ describe("getDictionary()", () => {
           const testResponse = {
             ok: false,
             json() {
-              return new Promise((resolve, reject) =>
-                resolve(testResponseData)
-              );
+              return new Promise((resolve, reject) => resolve(testResponseData));
             },
           };
           resolve(testResponse);

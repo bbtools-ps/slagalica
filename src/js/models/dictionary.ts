@@ -1,4 +1,4 @@
-import { DICTIONARY_URL } from "./config";
+import { DICTIONARY_URL } from "../constants/constants";
 
 type Data = { words: string };
 

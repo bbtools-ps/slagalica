@@ -1,4 +1,4 @@
-import { INPUT_CHARS_LENGTH } from "../config";
+import { INPUT_CHARS_LENGTH } from "../constants/constants";
 import View from "./View";
 
 class InputsView extends View {
