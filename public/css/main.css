@@ -78,6 +78,7 @@ button {
 button:hover {
   background-color: var(--dark-blue);
   color: var(--light-blue);
+  cursor: pointer;
 }
 
 li {
