@@ -1,4 +1,4 @@
-import { DICTIONARY_URL } from "../constants/constants";
+import { DICTIONARY_URL } from "../constants";
 
 type Data = { words: string };
 
