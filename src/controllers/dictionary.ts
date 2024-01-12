@@ -1,4 +1,4 @@
-import { CHAR_DICTIONARY } from "../constants/constants";
+import { CHAR_DICTIONARY } from "../constants";
 import * as model from "../models/dictionary";
 import {
   captalize,
