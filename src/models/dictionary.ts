@@ -2,13 +2,13 @@ import { DICTIONARY_URL } from "../constants";
 
 type Data = { words: string };
 
-interface State {
+type State = {
   dictionary: string[];
   search: {
     query: string;
     results: string[];
   };
-}
+};
 
 export const state: State = {
   dictionary: [],
