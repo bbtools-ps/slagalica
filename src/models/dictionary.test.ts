@@ -37,7 +37,9 @@ describe("getDictionary()", () => {
           const testResponse = {
             ok: false,
             json() {
-              return new Promise((resolve, reject) => resolve(testResponseData));
+              return new Promise((resolve, reject) =>
+                resolve(testResponseData)
+              );
             },
           };
           resolve(testResponse);
