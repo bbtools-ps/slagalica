@@ -7,7 +7,8 @@
   "scripts": {
     "test": "vitest --reporter verbose --environment happy-dom",
     "start": "parcel",
-    "build": "parcel build"
+    "build": "parcel build",
+    "format": "prettier --write '**/*.{js,ts,tsx,jsx}'"
   },
   "repository": {
     "type": "git",
