@@ -48,16 +48,20 @@ form {
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: 5rem;
   text-align: center;
   font-family: sans-serif;
   color: var(--dark-blue);
 }
 
+h2 {
+  font-size: 3rem;
+}
+
 input[type="text"] {
   display: block;
   width: 100%;
-  font-size: 2rem;
+  font-size: 3rem;
   text-align: center;
   border-radius: 0.3rem;
   background-color: var(--dark-blue);
@@ -73,7 +77,7 @@ button {
   background-color: var(--light-blue);
   border: 2px solid var(--dark-blue);
   color: var(--dark-blue);
-  font-size: 1.5rem;
+  font-size: 2rem;
   min-width: 16.3rem;
 }
 
@@ -84,7 +88,7 @@ button:hover {
 }
 
 li {
-  line-height: 1.5rem;
+  line-height: 1.5;
   color: var(--white);
 }
 
