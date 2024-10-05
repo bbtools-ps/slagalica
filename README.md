@@ -13,7 +13,7 @@ English: Searching for the longest words from the random letters. Insipred by TV
 
 To ensure better structure, maintainability, and expandability, this project uses [MVC architecture](https://developer.mozilla.org/en-US/docs/Glossary/MVC).
 
-# NPM commands
+# Scripts
 
-- **npm start**: starts the development mode.
+- **npm run dev**: starts the development mode.
 - **npm run build**: builds production-ready project.

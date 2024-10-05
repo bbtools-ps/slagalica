@@ -6,7 +6,7 @@
   "description": "Traženje najdužih reči od naizmeničnih slova. Inspirisano \"Slagalicom\" i igrom \"Slovo po slovo\".",
   "scripts": {
     "test": "vitest --reporter verbose --environment happy-dom",
-    "start": "parcel",
+    "dev": "parcel",
     "build": "parcel build",
     "format": "prettier --write '**/*.{js,ts,tsx,jsx}'"
   },
