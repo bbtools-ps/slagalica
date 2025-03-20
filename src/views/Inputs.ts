@@ -9,9 +9,9 @@ class InputsView extends View {
     this._parentElement?.addEventListener(
       "input",
       function (e: Event) {
-        const target = e.target as HTMLInputElement;
-        // Matching only input fields
-        if (target.tagName.toLowerCase() !== "input") return;
+        const target = e.target;
+
+        if (!(target instanceof HTMLInputElement)) return;
 
         handler(target);
       }.bind(this)
@@ -22,7 +22,10 @@ class InputsView extends View {
     document.addEventListener(
       "keydown",
       function (e: KeyboardEvent) {
-        const target = e.target as HTMLInputElement;
+        const target = e.target;
+
+        if (!(target instanceof HTMLInputElement)) return;
+
         if (e.key !== "Backspace") return;
 
         handler(target);
@@ -40,25 +43,28 @@ class InputsView extends View {
     return this._inputChars;
   }
 
+  private _createInputElement(index: number) {
+    return `
+      <input
+        type="text"
+        maxlength="1"
+        class="char"
+        data-char-idx=${index}
+        value=""
+        aria-label="слово ${index + 1}"
+      />`;
+  }
+
   render() {
     if (!this._parentElement) return;
 
     this._clear();
 
-    let inputChars: string[] = [];
+    const inputChars = Array.from({ length: INPUT_CHARS_LENGTH }, (_, i) =>
+      this._createInputElement(i)
+    ).join(" ");
 
-    for (let i = 0; i < INPUT_CHARS_LENGTH; i++) {
-      inputChars.push(`<input
-      type="text"
-      maxlength="1"
-      class="char"
-      data-char-idx=${i}
-      value=""
-      aria-label="слово ${i + 1}"
-    />`);
-    }
-
-    this._parentElement.innerHTML = inputChars.join(" ");
+    this._parentElement.innerHTML = inputChars;
     this._inputChars = this._parentElement.querySelectorAll(
       ".char"
     ) as NodeListOf<HTMLInputElement>;

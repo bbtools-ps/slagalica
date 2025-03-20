@@ -3,6 +3,7 @@ export default class View {
 
   protected _clear() {
     if (!this._parentElement) return;
+
     this._parentElement.innerHTML = "";
   }
 }
