@@ -1,4 +1,4 @@
-export default class View {
+export default abstract class View {
   protected _parentElement: Element | null;
 
   protected _clear() {
