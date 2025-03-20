@@ -26,20 +26,40 @@ export const controlInputs = () => {
 
     if (!target.value) return;
 
+    const currentElementIndex = Number(target.dataset.charIdx);
     const nextElementIndex = findNextEmptyElementIndex(
       inputChars,
-      Number(target.dataset.charIdx)
+      currentElementIndex
     );
-    inputChars[nextElementIndex].focus();
+    const nextElement = inputChars[nextElementIndex];
+    nextElement.focus();
   });
 
   Inputs.handleRemoveLetters((target) => {
-    const currentElementIndex = target.dataset.charIdx ?? inputChars.length - 1;
-    const previousElementIndex = findPreviousNotEmptyElementIndex(
-      inputChars,
-      Number(currentElementIndex)
+    const currentElementIndex = Number(
+      target.dataset.charIdx ?? inputChars.length - 1
     );
-    inputChars[previousElementIndex].focus();
+    let previousElementIndex = findPreviousNotEmptyElementIndex(
+      inputChars,
+      currentElementIndex
+    );
+
+    target.value = "";
+
+    if (previousElementIndex === currentElementIndex) {
+      previousElementIndex = Number(currentElementIndex) - 1;
+    }
+
+    const previousElement = inputChars[previousElementIndex];
+
+    if (!previousElement) return;
+
+    setTimeout(() => {
+      previousElement.focus();
+
+      const len = previousElement.value.length;
+      previousElement.setSelectionRange(len, len);
+    }, 0);
   });
 };
 
