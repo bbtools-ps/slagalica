@@ -1,5 +1,3 @@
-import { DICTIONARY_URL } from "../constants";
-
 type Data = { words: string };
 
 type State = {
@@ -19,7 +17,7 @@ export const state: State = {
 };
 
 export const getDictionary = async () => {
-  const response = await fetch(DICTIONARY_URL);
+  const response = await fetch("/dict/sr-rs.json");
 
   if (!response.ok) {
     throw new Error(`Грешка приликом учитавања речника! (${response.status})`);
@@ -37,7 +35,7 @@ export const findWords = (query: string) => {
   const charactersMap = query
     .toLowerCase()
     .split("")
-    .reduce((allCharacters, currentCharacter) => {
+    .reduce<Record<string, number>>((allCharacters, currentCharacter) => {
       const currentCount = allCharacters[currentCharacter] ?? 0;
       return { ...allCharacters, [currentCharacter]: currentCount + 1 };
     }, {});

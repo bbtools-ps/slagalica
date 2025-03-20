@@ -1,4 +1,3 @@
-import "core-js/stable/array/find-last-index";
 import {
   controlForm,
   controlInputs,
@@ -29,6 +28,6 @@ import Inputs from "./views/Inputs";
     generateRandomChars();
     findSolutions();
   } catch (error) {
-    App.renderError(error);
+    App.renderError(String(error));
   }
 })();

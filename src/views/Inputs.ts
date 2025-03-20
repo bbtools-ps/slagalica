@@ -3,34 +3,28 @@ import View from "./View";
 
 class InputsView extends View {
   protected _parentElement = document.querySelector(".letters");
-  protected _inputChars: NodeListOf<HTMLInputElement>;
+  protected _inputChars!: NodeListOf<HTMLInputElement>;
 
   handleAddLetters(handler: (payload: HTMLInputElement) => void) {
-    this._parentElement?.addEventListener(
-      "input",
-      function (e: Event) {
-        const target = e.target;
+    this._parentElement?.addEventListener("input", (e: Event) => {
+      const target = e.target;
 
-        if (!(target instanceof HTMLInputElement)) return;
+      if (!(target instanceof HTMLInputElement)) return;
 
-        handler(target);
-      }.bind(this)
-    );
+      handler(target);
+    });
   }
 
   handleRemoveLetters(handler: (payload: HTMLInputElement) => void) {
-    document.addEventListener(
-      "keydown",
-      function (e: KeyboardEvent) {
-        const target = e.target;
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
+      const target = e.target;
 
-        if (!(target instanceof HTMLInputElement)) return;
+      if (!(target instanceof HTMLInputElement)) return;
 
-        if (e.key !== "Backspace") return;
+      if (e.key !== "Backspace") return;
 
-        handler(target);
-      }.bind(this)
-    );
+      handler(target);
+    });
   }
 
   reset() {

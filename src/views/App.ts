@@ -1,6 +1,6 @@
 class App {
   protected _parentElement: Element | null = document.querySelector("main");
-  protected _loadingElement: Element;
+  protected _loadingElement!: Element;
   protected _form = document.querySelector("form");
 
   protected _createElement() {

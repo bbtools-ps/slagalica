@@ -4,12 +4,12 @@ import { getDictionary } from "./dictionary";
 const testResponseData = { data: "dictionary of words" };
 
 const testFetch = vi.fn(
-  (url, options) =>
-    new Promise((resolve, reject) => {
+  (_url, _options) =>
+    new Promise((resolve, _reject) => {
       const testResponse = {
         ok: true,
         json() {
-          return new Promise((resolve, reject) => resolve(testResponseData));
+          return new Promise((resolve, _reject) => resolve(testResponseData));
         },
       };
       resolve(testResponse);
@@ -23,21 +23,21 @@ describe("getDictionary()", () => {
     let errorMessage: undefined | string;
 
     try {
-      const response = await getDictionary();
+      await getDictionary();
     } catch (error) {
-      errorMessage = error;
+      errorMessage = error as string;
     }
 
     expect(errorMessage).toBeUndefined();
   });
   it("should throw error if response is not ok", async () => {
     testFetch.mockImplementationOnce(
-      (url, options) =>
-        new Promise((resolve, reject) => {
+      (_url, _options) =>
+        new Promise((resolve, _reject) => {
           const testResponse = {
             ok: false,
             json() {
-              return new Promise((resolve, reject) =>
+              return new Promise((resolve, _reject) =>
                 resolve(testResponseData)
               );
             },
@@ -49,9 +49,9 @@ describe("getDictionary()", () => {
     let errorMessage: undefined | string;
 
     try {
-      const response = await getDictionary();
+      await getDictionary();
     } catch (error) {
-      errorMessage = error;
+      errorMessage = error as string;
     }
 
     expect(errorMessage).toBeDefined();

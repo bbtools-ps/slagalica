@@ -19,17 +19,13 @@ vi.stubGlobal("document", document);
 
 const createInputCharElements = () => {
   const inputs = document.querySelector(".letters");
-  const inputChars: string[] = [];
-  for (let i = 0; i < INPUT_CHARS_LENGTH; i++) {
-    inputChars.push(`<input
-      type="text"
-      maxlength="1"
-      class="char"
-      data-char-idx=${i}
-      value=""
-    />`);
-    inputs.innerHTML = inputChars.join(" ");
-  }
+  if (!inputs) return;
+
+  inputs.innerHTML = Array.from(
+    { length: INPUT_CHARS_LENGTH },
+    (_, i) =>
+      `<input type="text" maxlength="1" class="char" data-char-idx=${i} value="" />`
+  ).join(" ");
 };
 
 describe("captalize()", () => {

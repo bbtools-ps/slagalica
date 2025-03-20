@@ -3,7 +3,6 @@ import * as model from "../models/dictionary";
 import {
   captalize,
   findNextEmptyElementIndex,
-  findPreviousNotEmptyElementIndex,
   generateRandomChar,
   getChars,
 } from "../utils";
@@ -24,6 +23,7 @@ export const controlInputs = () => {
       )
       .toUpperCase();
 
+    console.log(target.value);
     if (!target.value) return;
 
     const currentElementIndex = Number(target.dataset.charIdx);
@@ -31,6 +31,7 @@ export const controlInputs = () => {
       inputChars,
       currentElementIndex
     );
+    console.log(currentElementIndex, nextElementIndex);
     const nextElement = inputChars[nextElementIndex];
     nextElement.focus();
   });
@@ -39,16 +40,10 @@ export const controlInputs = () => {
     const currentElementIndex = Number(
       target.dataset.charIdx ?? inputChars.length - 1
     );
-    let previousElementIndex = findPreviousNotEmptyElementIndex(
-      inputChars,
-      currentElementIndex
-    );
+    const previousElementIndex = Math.max(0, currentElementIndex - 1);
 
+    console.log(previousElementIndex, currentElementIndex);
     target.value = "";
-
-    if (previousElementIndex === currentElementIndex) {
-      previousElementIndex = Number(currentElementIndex) - 1;
-    }
 
     const previousElement = inputChars[previousElementIndex];
 
