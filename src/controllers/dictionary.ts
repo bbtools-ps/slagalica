@@ -74,9 +74,11 @@ export const findSolutions = () => {
     const [mainSolution] = model.state.search.results;
     const otherSolutions = model.state.search.results
       .slice(1, 6)
-      .map((item) => captalize(item));
+      .map((item) => `${captalize(item)} (${item.length})`);
 
-    MainSolution.renderSolution(mainSolution.toUpperCase());
+    MainSolution.renderSolution(
+      `${mainSolution.toUpperCase()} (${mainSolution.length})`
+    );
     OtherSolutions.renderSolutions(otherSolutions);
   });
 };
