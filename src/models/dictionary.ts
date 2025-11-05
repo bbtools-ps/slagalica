@@ -44,8 +44,13 @@ export const findWords = (query: string) => {
 
   state.search.results = state.dictionary.filter((word) => {
     const charactersMapCopy = { ...charactersMap };
-    return (
-      [...word].every((character) => charactersMapCopy[character]--) && word
-    );
+
+    for (const char of word) {
+      if (!charactersMapCopy[char]) {
+        return false;
+      }
+      charactersMapCopy[char]--;
+    }
+    return true;
   });
 };
