@@ -68,11 +68,11 @@ export const findSolutions = () => {
 
     model.findWords(searchQuery);
 
-    if (!model.state.search.results.length)
+    if (!model.state.searchResults.length)
       return alert("Нема такве речи у речнику.");
 
-    const [mainSolution] = model.state.search.results;
-    const otherSolutions = model.state.search.results
+    const [mainSolution] = model.state.searchResults;
+    const otherSolutions = model.state.searchResults
       .slice(1, 6)
       .map((item) => `${captalize(item)} (${item.length})`);
 

@@ -1,19 +1,13 @@
-type Data = { words: string };
+type Data = { words: string[] };
 
 type State = {
   dictionary: string[];
-  search: {
-    query: string;
-    results: string[];
-  };
+  searchResults: string[];
 };
 
 export const state: State = {
   dictionary: [],
-  search: {
-    query: "",
-    results: [],
-  },
+  searchResults: [],
 };
 
 export const getDictionary = async () => {
@@ -25,24 +19,18 @@ export const getDictionary = async () => {
 
   const data: Data = await response.json();
 
-  state.dictionary =
-    data.words?.split(" ").sort((a, b) => b.length - a.length) ?? [];
+  state.dictionary = data.words?.sort((a, b) => b.length - a.length) ?? [];
 };
 
 export const findWords = (query: string) => {
-  state.search.query = query;
+  const queryLower = query.toLowerCase();
+  const charactersMap: Record<string, number> = {};
 
-  // create characters map that contains number of occurences for each character from the random string
-  const charactersMap = query
-    .toLowerCase()
-    .split("")
-    .reduce<Record<string, number>>((allCharacters, currentCharacter) => {
-      allCharacters[currentCharacter] =
-        (allCharacters[currentCharacter] ?? 0) + 1;
-      return allCharacters;
-    }, {});
+  for (const char of queryLower) {
+    charactersMap[char] = (charactersMap[char] ?? 0) + 1;
+  }
 
-  state.search.results = state.dictionary.filter((word) => {
+  state.searchResults = state.dictionary.filter((word) => {
     const charactersMapCopy = { ...charactersMap };
 
     for (const char of word) {
