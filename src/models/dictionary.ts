@@ -31,6 +31,10 @@ export const findWords = (query: string) => {
   }
 
   state.searchResults = state.dictionary.filter((word) => {
+    if (word.length > queryLower.length) {
+      return false;
+    }
+
     const charactersMapCopy = { ...charactersMap };
 
     for (const char of word) {
