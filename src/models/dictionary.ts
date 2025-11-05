@@ -25,7 +25,8 @@ export const getDictionary = async () => {
 
   const data: Data = await response.json();
 
-  state.dictionary = data.words?.split(" ");
+  state.dictionary =
+    data.words?.split(" ").sort((a, b) => b.length - a.length) ?? [];
 };
 
 export const findWords = (query: string) => {
@@ -36,16 +37,15 @@ export const findWords = (query: string) => {
     .toLowerCase()
     .split("")
     .reduce<Record<string, number>>((allCharacters, currentCharacter) => {
-      const currentCount = allCharacters[currentCharacter] ?? 0;
-      return { ...allCharacters, [currentCharacter]: currentCount + 1 };
+      allCharacters[currentCharacter] =
+        (allCharacters[currentCharacter] ?? 0) + 1;
+      return allCharacters;
     }, {});
 
-  state.search.results = state.dictionary
-    .filter((word) => {
-      const charactersMapCopy = { ...charactersMap };
-      return (
-        [...word].every((character) => charactersMapCopy[character]--) && word
-      );
-    })
-    .sort((a, b) => b.length - a.length);
+  state.search.results = state.dictionary.filter((word) => {
+    const charactersMapCopy = { ...charactersMap };
+    return (
+      [...word].every((character) => charactersMapCopy[character]--) && word
+    );
+  });
 };
