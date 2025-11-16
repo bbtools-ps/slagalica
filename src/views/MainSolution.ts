@@ -4,6 +4,7 @@ class MainSolution {
   ) as HTMLInputElement;
 
   reset() {
+    if (!this._parentElement) return;
     this._parentElement.value = "";
     this._parentElement.classList.remove("solved");
   }

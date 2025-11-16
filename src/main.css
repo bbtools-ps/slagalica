@@ -212,3 +212,72 @@ li {
     grid-template-columns: repeat(6, 1fr);
   }
 }
+
+/* Error Notification Styles */
+.error-notification {
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  max-width: 50rem;
+  width: 90%;
+  animation: slideDown 0.3s ease-out;
+}
+
+.error-notification.hidden {
+  display: none;
+}
+
+.error-notification__content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  background-color: var(--red);
+  color: var(--white);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  font-size: 1.6rem;
+}
+
+.error-notification__content i {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.error-notification__content span {
+  flex: 1;
+}
+
+.error-notification__close {
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 2.5rem;
+  cursor: pointer;
+  padding: 0;
+  min-width: auto;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.3rem;
+  transition: background-color 0.2s;
+}
+
+.error-notification__close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}

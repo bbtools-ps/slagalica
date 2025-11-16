@@ -8,29 +8,34 @@ import {
 import "./main.css";
 import * as model from "./models/dictionary";
 import App from "./views/App";
+import ErrorNotification from "./views/ErrorNotification";
 import Inputs from "./views/Inputs";
 
 (async function () {
   const init = async () => {
     try {
-      // Loading
+      // Show loading state
       App.renderLoading();
 
-      // Get data
+      // Initialize Model - Load dictionary data
       await model.getDictionary();
 
-      // Render
+      // Initialize Views - Render UI components
       App.render();
       Inputs.render();
 
-      // Add controls
+      // Initialize Controllers - Setup event handlers
       controlForm();
       controlInputs();
       reset();
       generateRandomChars();
       findSolutions();
     } catch (error) {
-      App.renderError(String(error));
+      // Handle initialization errors
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      App.renderError(errorMessage);
+      ErrorNotification.show(errorMessage);
     }
   };
 

@@ -1,60 +1,39 @@
-import { CHAR_DICTIONARY } from "../constants";
+import { INPUT_CHARS_LENGTH } from "../constants";
 import * as model from "../models/dictionary";
-import {
-  captalize,
-  findNextEmptyElementIndex,
-  generateRandomChar,
-  getChars,
-} from "../utils";
+import DictionaryService from "../services/DictionaryService";
 import App from "../views/App";
+import ErrorNotification from "../views/ErrorNotification";
 import Inputs from "../views/Inputs";
 import MainSolution from "../views/MainSolution";
 import Options from "../views/Options";
 import OtherSolutions from "../views/OtherSolutions";
 
 export const controlInputs = () => {
-  const inputChars = Inputs.inputChars;
+  Inputs.handleAddLetters((value, currentIndex) => {
+    // Validate and format input
+    const validatedValue = DictionaryService.validateCyrillicInput(value);
 
-  Inputs.handleAddLetters((target) => {
-    target.value = target.value
-      .replace(
-        /[^абвгдђежзијклљмнњопрстћуфхцчџшАБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШ]/g,
-        ""
-      )
-      .toUpperCase();
+    if (!validatedValue) return;
 
-    console.log(target.value);
-    if (!target.value) return;
+    // Update the current input
+    Inputs.updateInput(currentIndex, validatedValue);
 
-    const currentElementIndex = Number(target.dataset.charIdx);
-    const nextElementIndex = findNextEmptyElementIndex(
-      inputChars,
-      currentElementIndex
+    // Find and focus next empty input
+    const inputValues = Inputs.getInputValues();
+    const nextIndex = DictionaryService.findNextEmptyIndex(
+      inputValues,
+      currentIndex
     );
-    console.log(currentElementIndex, nextElementIndex);
-    const nextElement = inputChars[nextElementIndex];
-    nextElement.focus();
+    Inputs.focusInput(nextIndex);
   });
 
-  Inputs.handleRemoveLetters((target) => {
-    const currentElementIndex = Number(
-      target.dataset.charIdx ?? inputChars.length - 1
-    );
-    const previousElementIndex = Math.max(0, currentElementIndex - 1);
+  Inputs.handleRemoveLetters((currentIndex) => {
+    // Clear current input
+    Inputs.updateInput(currentIndex, "");
 
-    console.log(previousElementIndex, currentElementIndex);
-    target.value = "";
-
-    const previousElement = inputChars[previousElementIndex];
-
-    if (!previousElement) return;
-
-    setTimeout(() => {
-      previousElement.focus();
-
-      const len = previousElement.value.length;
-      previousElement.setSelectionRange(len, len);
-    }, 0);
+    // Focus previous input
+    const previousIndex = Math.max(0, currentIndex - 1);
+    Inputs.focusInput(previousIndex);
   });
 };
 
@@ -64,20 +43,35 @@ export const controlForm = () => {
 
 export const findSolutions = () => {
   Options.handleSearch(() => {
-    const searchQuery = getChars(Inputs.inputChars);
+    // Get input values
+    const inputValues = Inputs.getInputValues();
+    const searchQuery = DictionaryService.extractCharsFromInputs(inputValues);
 
-    model.findWords(searchQuery);
+    // Perform search
+    const result = model.findWords(searchQuery);
 
-    if (!model.state.searchResults.length)
-      return alert("Нема такве речи у речнику.");
+    // Handle search failure
+    if (!result.success) {
+      ErrorNotification.show(result.error || "Грешка при претрази.");
+      return;
+    }
 
-    const [mainSolution] = model.state.searchResults;
-    const otherSolutions = model.state.searchResults
+    // Get results
+    const searchResults = model.getSearchResults();
+
+    if (searchResults.length === 0) {
+      ErrorNotification.show("Нема такве речи у речнику.");
+      return;
+    }
+
+    // Format and display results
+    const [mainSolution] = searchResults;
+    const otherSolutions = searchResults
       .slice(1, 6)
-      .map((item) => `${captalize(item)} (${item.length})`);
+      .map((word) => DictionaryService.formatSolution(word, false));
 
     MainSolution.renderSolution(
-      `${mainSolution.toUpperCase()} (${mainSolution.length})`
+      DictionaryService.formatSolution(mainSolution, true)
     );
     OtherSolutions.renderSolutions(otherSolutions);
   });
@@ -88,18 +82,23 @@ export const reset = () => {
     Inputs.reset();
     MainSolution.reset();
     OtherSolutions.reset();
+    model.clearSearchResults();
+    ErrorNotification.hide();
   });
 };
 
 export const generateRandomChars = () => {
   Options.handleRandom(() => {
-    const inputChars = Inputs.inputChars;
-
+    // Clear previous results
     MainSolution.reset();
     OtherSolutions.reset();
+    ErrorNotification.hide();
 
-    inputChars.forEach((char) => {
-      char.value = generateRandomChar(CHAR_DICTIONARY);
-    });
+    // Generate random characters
+    const randomChars =
+      DictionaryService.generateRandomChars(INPUT_CHARS_LENGTH);
+
+    // Update inputs
+    Inputs.setInputValues(randomChars);
   });
 };

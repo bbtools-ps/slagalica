@@ -6,7 +6,7 @@ class OtherSolutions extends View {
   reset() {
     if (!this._parentElement) return;
 
-    this._parentElement?.classList.add("hidden");
+    this._parentElement.classList.add("hidden");
     this._parentElement.innerHTML = "";
   }
 
@@ -16,7 +16,7 @@ class OtherSolutions extends View {
     this._clear();
 
     const solutionsList = solutions
-      .map((solution) => `<li>${solution}</li>`)
+      .map((solution) => `<li>${this._escapeHtml(solution)}</li>`)
       .join("");
     const markup = `<h2>Остала решења:</h2><ul>${solutionsList}</ul>`;
 

@@ -1,4 +1,6 @@
-class App {
+import View from "./View";
+
+class App extends View {
   protected _parentElement: Element | null = document.querySelector("main");
   protected _loadingElement!: Element;
   protected _form = document.querySelector("form");
@@ -19,7 +21,9 @@ class App {
   }
 
   renderError(message: string) {
-    this._loadingElement.innerHTML = `<h1 class="white">${message}</h1>`;
+    this._loadingElement.innerHTML = `<h1 class="white">${this._escapeHtml(
+      message
+    )}</h1>`;
   }
 
   handleForm(handler: (payload: SubmitEvent) => void) {
@@ -27,7 +31,7 @@ class App {
   }
 
   render() {
-    this._loadingElement.remove();
+    this._loadingElement?.remove();
     this._parentElement?.classList.remove("hidden");
   }
 }
