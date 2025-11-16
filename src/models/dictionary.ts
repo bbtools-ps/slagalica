@@ -37,40 +37,32 @@ export const getDictionary = async () => {
 /**
  * Validate search query
  * @param query - String to validate
- * @returns Validation result
+ * @throws {Error} If query is invalid
  */
-const validateQuery = (query: string): { valid: boolean; error?: string } => {
+const validateQuery = (query: string) => {
   if (!query || typeof query !== "string") {
-    return { valid: false, error: "Унесите слова за претрагу." };
+    throw new Error("Унесите слова за претрагу.");
   }
 
   const trimmedQuery = query.trim();
   if (trimmedQuery.length === 0) {
-    return { valid: false, error: "Унесите најмање једно слово." };
+    throw new Error("Унесите најмање једно слово.");
   }
-
-  return { valid: true };
 };
 
 /**
  * Find all matching words based on available characters
  * @param query - String of available characters
- * @returns Array of matching words sorted by length (descending)
+ * @throws {Error} If query is invalid, dictionary not loaded, or no words found
  */
-export const findWords = (
-  query: string
-): { success: boolean; error?: string } => {
+export const findWords = (query: string) => {
   // Validate input
-  const validation = validateQuery(query);
-  if (!validation.valid) {
-    state.searchResults = [];
-    return { success: false, error: validation.error };
-  }
+  validateQuery(query);
 
   // Check if dictionary is loaded
   if (state.dictionary.length === 0) {
     state.searchResults = [];
-    return { success: false, error: "Речник није учитан." };
+    throw new Error("Речник није учитан.");
   }
 
   const queryLower = query.toLowerCase();
@@ -99,10 +91,8 @@ export const findWords = (
   });
 
   if (state.searchResults.length === 0) {
-    return { success: false, error: "Нема такве речи у речнику." };
+    throw new Error("Нема такве речи у речнику.");
   }
-
-  return { success: true };
 };
 
 export const getSearchResults = () => {

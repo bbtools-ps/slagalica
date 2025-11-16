@@ -43,37 +43,33 @@ export const controlForm = () => {
 
 export const findSolutions = () => {
   Options.handleSearch(() => {
-    // Get input values
-    const inputValues = Inputs.getInputValues();
-    const searchQuery = DictionaryService.extractCharsFromInputs(inputValues);
+    try {
+      // Get input values
+      const inputValues = Inputs.getInputValues();
+      const searchQuery = DictionaryService.extractCharsFromInputs(inputValues);
 
-    // Perform search
-    const result = model.findWords(searchQuery);
+      // Perform search - will throw error if fails
+      model.findWords(searchQuery);
 
-    // Handle search failure
-    if (!result.success) {
-      ErrorNotification.show(result.error || "Грешка при претрази.");
-      return;
+      // Get results
+      const searchResults = model.getSearchResults();
+
+      // Format and display results
+      const [mainSolution] = searchResults;
+      const otherSolutions = searchResults
+        .slice(1, 6)
+        .map((word) => DictionaryService.formatSolution(word, false));
+
+      MainSolution.renderSolution(
+        DictionaryService.formatSolution(mainSolution, true)
+      );
+      OtherSolutions.renderSolutions(otherSolutions);
+    } catch (error) {
+      // Handle search errors
+      const errorMessage =
+        error instanceof Error ? error.message : "Грешка при претрази.";
+      ErrorNotification.show(errorMessage);
     }
-
-    // Get results
-    const searchResults = model.getSearchResults();
-
-    if (searchResults.length === 0) {
-      ErrorNotification.show("Нема такве речи у речнику.");
-      return;
-    }
-
-    // Format and display results
-    const [mainSolution] = searchResults;
-    const otherSolutions = searchResults
-      .slice(1, 6)
-      .map((word) => DictionaryService.formatSolution(word, false));
-
-    MainSolution.renderSolution(
-      DictionaryService.formatSolution(mainSolution, true)
-    );
-    OtherSolutions.renderSolutions(otherSolutions);
   });
 };
 

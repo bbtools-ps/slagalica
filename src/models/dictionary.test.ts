@@ -109,8 +109,7 @@ describe("Dictionary Model", () => {
     });
 
     it("should find matching words", () => {
-      const result = findWords("речник");
-      expect(result.success).toBe(true);
+      findWords("речник");
       expect(state.searchResults.length).toBeGreaterThan(0);
     });
 
@@ -122,35 +121,26 @@ describe("Dictionary Model", () => {
       });
     });
 
-    it("should return error for empty query", () => {
-      const result = findWords("");
-      expect(result.success).toBe(false);
-      expect(result.error).toBeDefined();
+    it("should throw error for empty query", () => {
+      expect(() => findWords("")).toThrow("Унесите слова за претрагу");
     });
 
-    it("should return error for whitespace-only query", () => {
-      const result = findWords("   ");
-      expect(result.success).toBe(false);
-      expect(result.error).toContain("најмање једно слово");
+    it("should throw error for whitespace-only query", () => {
+      expect(() => findWords("   ")).toThrow("најмање једно слово");
     });
 
-    it("should return error when dictionary is empty", () => {
+    it("should throw error when dictionary is empty", () => {
       state.dictionary = [];
-      const result = findWords("тест");
-      expect(result.success).toBe(false);
-      expect(result.error).toContain("Речник није учитан");
+      expect(() => findWords("тест")).toThrow("Речник није учитан");
     });
 
-    it("should return error when no words match", () => {
-      const result = findWords("жџшч");
-      expect(result.success).toBe(false);
-      expect(result.error).toContain("Нема такве речи");
+    it("should throw error when no words match", () => {
+      expect(() => findWords("жџшч")).toThrow("Нема такве речи");
     });
 
     it("should be case insensitive", () => {
-      const result1 = findWords("РЕЧ");
-      const result2 = findWords("реч");
-      expect(result1.success).toBe(result2.success);
+      expect(() => findWords("РЕЧ")).not.toThrow();
+      expect(() => findWords("реч")).not.toThrow();
     });
 
     it("should not allow words longer than query", () => {
