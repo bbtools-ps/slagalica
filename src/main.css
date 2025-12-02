@@ -86,7 +86,6 @@ button {
 button:hover {
   background-color: var(--dark-blue);
   color: var(--light-blue);
-  cursor: pointer;
 }
 
 li {
@@ -257,7 +256,6 @@ li {
   border: none;
   color: var(--white);
   font-size: 2.5rem;
-  cursor: pointer;
   padding: 0;
   min-width: auto;
   width: 3rem;
