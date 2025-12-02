@@ -15,6 +15,7 @@ html {
   --light-blue: #01a2fd;
   --red: #b40000;
   --white: #fff;
+  --radius-md: 0.75rem;
 }
 
 html,
@@ -63,7 +64,7 @@ input[type="text"] {
   width: 100%;
   font-size: 3rem;
   text-align: center;
-  border-radius: 0.3rem;
+  border-radius: var(--radius-md);
   background-color: var(--dark-blue);
   color: var(--white);
   border: 2px solid var(--gray);
@@ -73,12 +74,13 @@ input[type="text"] {
 button {
   margin: 0 auto;
   padding: 1rem;
-  border-radius: 0.3rem;
+  border-radius: var(--radius-md);
   background-color: var(--light-blue);
   border: 2px solid var(--dark-blue);
   color: var(--dark-blue);
   font-size: 2rem;
   min-width: 16.3rem;
+  padding: 1.5rem 2rem;
 }
 
 button:hover {
@@ -114,7 +116,7 @@ li {
 }
 
 .other-solutions {
-  border-radius: 0.3rem;
+  border-radius: var(--radius-md);
   background-color: var(--dark-blue);
   color: var(--white);
   border: 2px solid var(--gray);
@@ -236,7 +238,7 @@ li {
   padding: 1.5rem 2rem;
   background-color: var(--red);
   color: var(--white);
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   font-size: 1.6rem;
 }
@@ -263,7 +265,7 @@ li {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.3rem;
+  border-radius: var(--radius-md);
   transition: background-color 0.2s;
 }
 
